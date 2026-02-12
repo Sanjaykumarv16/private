@@ -81,6 +81,12 @@ button {
     <button class="option-btn" onclick="nextPage(4)">Everyday 😘</button>
 </div>
 
+<div class="container hidden" id="page3">
+    <div class="question">Will you choose me if i am a ghost? ☕</div>
+    <button class="option-btn" onclick="nextPage(5)">Yesss 🥰</button>
+    <button class="option-btn" onclick="nextPage(5)">Defienetely Yesss 😻</button>
+</div>
+
 <div class="container hidden" id="finalPage">
     <h1>So... 💌</h1>
     <div class="question">Will You Be My Valentine? ❤️</div>
@@ -94,7 +100,7 @@ function nextPage(pageNumber) {
         div.classList.add("hidden");
     });
 
-    if(pageNumber === 4){
+    if(pageNumber === 5){
         document.getElementById("finalPage").classList.remove("hidden");
         moveNoButton();
     } else {
@@ -105,10 +111,11 @@ function nextPage(pageNumber) {
 function yesClicked(){
     document.body.innerHTML = `
         <h1 style="margin-top:200px; font-size:50px;">
-        CUTIEEEEEE SAIIIIIII❤️❤️❤️<br>
-        You Just Made Me The Happiest Person Babyyyyy Mmuuahhhhhhhh😭💖
+        YAYYYYYY SAIIIIIII❤️❤️❤️<br>
+        Babyy You Just Made Me The Happiest Person Mmuuahhhhhhhh😭❤️
         </h1>
     `;
+     createHearts();
 }
 
 function moveNoButton(){
@@ -122,6 +129,28 @@ function moveNoButton(){
         noBtn.style.top = y + "px";
     });
 }
+
+function createHearts(){
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+
+        const ghost = document.createElement("div");
+        ghost.classList.add("heart");
+        ghost.innerHTML = "👻";
+        ghost.style.left = Math.random() * window.innerWidth + "px";
+        ghost.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(ghost);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }, 300);
+}    
 </script>
 
 </body>
