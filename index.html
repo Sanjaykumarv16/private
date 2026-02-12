@@ -8,11 +8,10 @@
 <style>
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     background: linear-gradient(to right, #ff4e8a, #ff9a9e);
     color: white;
     text-align: center;
-    overflow: hidden;
 }
 
 .container {
@@ -44,14 +43,14 @@ button {
 }
 
 #yesBtn {
-    background: #fff;
+    background: white;
     color: #ff4e8a;
 }
 
 #noBtn {
     background: black;
     color: white;
-    position: absolute;
+    position: fixed; /* FIXED instead of absolute */
 }
 
 .hidden {
@@ -70,21 +69,15 @@ button {
 </div>
 
 <div class="container hidden" id="page2">
-    <div class="question">What do you think of our pair? 🥹 </div>
-    <button class="option-btn" onclick="nextPage(3)">Cuteeeeee 💕</button>
-    <button class="option-btn" onclick="nextPage(3)">Cutesttttttttt 😌</button>
+    <div class="question">Do you think we make a cute pair?</div>
+    <button class="option-btn" onclick="nextPage(3)">Yes obviously 💕</button>
+    <button class="option-btn" onclick="nextPage(3)">100% yes 😌</button>
 </div>
 
 <div class="container hidden" id="page3">
     <div class="question">Would you go on endless coffee dates with me? ☕</div>
     <button class="option-btn" onclick="nextPage(4)">Always 💖</button>
     <button class="option-btn" onclick="nextPage(4)">Everyday 😘</button>
-</div>
-
-<div class="container hidden" id="page3">
-    <div class="question">Will you choose me if i am a ghost? ☕</div>
-    <button class="option-btn" onclick="nextPage(5)">Yesss 🥰</button>
-    <button class="option-btn" onclick="nextPage(5)">Defienetely Yesss 😻</button>
 </div>
 
 <div class="container hidden" id="finalPage">
@@ -95,14 +88,20 @@ button {
 </div>
 
 <script>
+let noButtonInitialized = false;
+
 function nextPage(pageNumber) {
     document.querySelectorAll(".container").forEach(div => {
         div.classList.add("hidden");
     });
 
-    if(pageNumber === 5){
+    if(pageNumber === 4){
         document.getElementById("finalPage").classList.remove("hidden");
-        moveNoButton();
+
+        if(!noButtonInitialized){
+            moveNoButton();
+            noButtonInitialized = true;
+        }
     } else {
         document.getElementById("page" + pageNumber).classList.remove("hidden");
     }
@@ -111,46 +110,30 @@ function nextPage(pageNumber) {
 function yesClicked(){
     document.body.innerHTML = `
         <h1 style="margin-top:200px; font-size:50px;">
-        YAYYYYYY SAIIIIIII❤️❤️❤️<br>
-        Babyy You Just Made Me The Happiest Person Mmuuahhhhhhhh😭❤️
+        YAYYYYY ❤️❤️❤️<br>
+        You Just Made Me The Happiest Person 😭💖
         </h1>
     `;
-     createHearts();
 }
 
 function moveNoButton(){
     const noBtn = document.getElementById("noBtn");
 
-    noBtn.addEventListener("mouseover", () => {
-        const x = Math.random() * (window.innerWidth - 100);
-        const y = Math.random() * (window.innerHeight - 50);
+    noBtn.addEventListener("mouseenter", () => {
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
+        const buttonWidth = noBtn.offsetWidth;
+        const buttonHeight = noBtn.offsetHeight;
+
+        const maxX = window.innerWidth - buttonWidth;
+        const maxY = window.innerHeight - buttonHeight;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.left = randomX + "px";
+        noBtn.style.top = randomY + "px";
     });
 }
-
-function createHearts(){
-    setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-        document.body.appendChild(heart);
-
-        const ghost = document.createElement("div");
-        ghost.classList.add("heart");
-        ghost.innerHTML = "👻";
-        ghost.style.left = Math.random() * window.innerWidth + "px";
-        ghost.style.fontSize = (Math.random() * 20 + 15) + "px";
-        document.body.appendChild(ghost);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
-    }, 300);
-}    
 </script>
 
 </body>
