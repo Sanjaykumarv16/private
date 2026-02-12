@@ -12,6 +12,7 @@ body {
     background: linear-gradient(to right, #ff4e8a, #ff9a9e);
     color: white;
     text-align: center;
+    overflow-x: hidden;
 }
 
 .container {
@@ -43,18 +44,30 @@ button {
 }
 
 #yesBtn {
-    background: white;
+    background: #fff;
     color: #ff4e8a;
 }
 
 #noBtn {
     background: black;
     color: white;
-    position: fixed; /* FIXED instead of absolute */
+    position: fixed;
 }
 
 .hidden {
     display: none;
+}
+
+/* Floating animation */
+.heart {
+    position: fixed;
+    bottom: -50px;
+    animation: floatUp 5s linear forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
 }
 </style>
 </head>
@@ -69,15 +82,21 @@ button {
 </div>
 
 <div class="container hidden" id="page2">
-    <div class="question">Do you think we make a cute pair?</div>
-    <button class="option-btn" onclick="nextPage(3)">Yes obviously 💕</button>
-    <button class="option-btn" onclick="nextPage(3)">100% yes 😌</button>
+    <div class="question">What do you think of our pair? 🥹</div>
+    <button class="option-btn" onclick="nextPage(3)">Cuteeeeee 💕</button>
+    <button class="option-btn" onclick="nextPage(3)">Cutesttttttttt 😌</button>
 </div>
 
 <div class="container hidden" id="page3">
     <div class="question">Would you go on endless coffee dates with me? ☕</div>
     <button class="option-btn" onclick="nextPage(4)">Always 💖</button>
     <button class="option-btn" onclick="nextPage(4)">Everyday 😘</button>
+</div>
+
+<div class="container hidden" id="page4">
+    <div class="question">Will you choose me even if I am a ghost? 👻</div>
+    <button class="option-btn" onclick="nextPage(5)">Yesss 🥰</button>
+    <button class="option-btn" onclick="nextPage(5)">Definitely Yesss 😻</button>
 </div>
 
 <div class="container hidden" id="finalPage">
@@ -88,19 +107,20 @@ button {
 </div>
 
 <script>
-let noButtonInitialized = false;
+
+let noInitialized = false;
 
 function nextPage(pageNumber) {
     document.querySelectorAll(".container").forEach(div => {
         div.classList.add("hidden");
     });
 
-    if(pageNumber === 4){
+    if(pageNumber === 5){
         document.getElementById("finalPage").classList.remove("hidden");
 
-        if(!noButtonInitialized){
+        if(!noInitialized){
             moveNoButton();
-            noButtonInitialized = true;
+            noInitialized = true;
         }
     } else {
         document.getElementById("page" + pageNumber).classList.remove("hidden");
@@ -110,10 +130,11 @@ function nextPage(pageNumber) {
 function yesClicked(){
     document.body.innerHTML = `
         <h1 style="margin-top:200px; font-size:50px;">
-        YAYYYYY ❤️❤️❤️<br>
-        You Just Made Me The Happiest Person 😭💖
+        YAYYYYYY SAIIIIIII ❤️❤️❤️<br>
+        Babyy You Just Made Me The Happiest Person 😭❤️
         </h1>
     `;
+    createHearts();
 }
 
 function moveNoButton(){
@@ -121,11 +142,11 @@ function moveNoButton(){
 
     noBtn.addEventListener("mouseenter", () => {
 
-        const buttonWidth = noBtn.offsetWidth;
-        const buttonHeight = noBtn.offsetHeight;
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
 
-        const maxX = window.innerWidth - buttonWidth;
-        const maxY = window.innerHeight - buttonHeight;
+        const maxX = window.innerWidth - btnWidth;
+        const maxY = window.innerHeight - btnHeight;
 
         const randomX = Math.random() * maxX;
         const randomY = Math.random() * maxY;
@@ -134,6 +155,28 @@ function moveNoButton(){
         noBtn.style.top = randomY + "px";
     });
 }
+
+function createHearts(){
+    setInterval(() => {
+
+        const emojis = ["❤️", "👻"];
+
+        emojis.forEach(symbol => {
+            const el = document.createElement("div");
+            el.classList.add("heart");
+            el.innerHTML = symbol;
+            el.style.left = Math.random() * window.innerWidth + "px";
+            el.style.fontSize = (Math.random() * 20 + 20) + "px";
+            document.body.appendChild(el);
+
+            setTimeout(() => {
+                el.remove();
+            }, 5000);
+        });
+
+    }, 400);
+}
+
 </script>
 
 </body>
